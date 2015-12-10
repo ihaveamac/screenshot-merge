@@ -5,7 +5,7 @@ version = "1.1"
 dev_version = false
 
 -- input_folder exists for debugging reasons, and the fact that I back up my screenshots
-input_folder = "screenshots-old"
+input_folder = "screenshots"
 output_folder = "screenshots-merged"
 
 NINJHAX = "ninjhax"
