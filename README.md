@@ -1,5 +1,5 @@
 # screenshot-merge
-This tool is for really lazy people who want to merge their ninjhax 2.5 screenshots on their 3DS.
+This tool is for really lazy people who want to merge their ninjhax 2.5 screenshots on their 3DS. Inspired by [RedInquisitive's PC Screenshot Tool](https://github.com/RedInquisitive/Screenshot-Tool).
 
 This uses lpp-3ds r4 by Rinnegatamante. Please see [its repo](https://github.com/Rinnegatamante/lpp-3ds) for more details, including license. The "normal" build with error handling is in this repository, releases use the "unsafe" build with no error handling.
 

@@ -4,10 +4,11 @@
 version = "1.0"
 
 -- input_folder exists for debugging reasons, and the fact that I back up my screenshots
-input_folder = "screenshots-old"
+input_folder = "screenshots"
 output_folder = "screenshots-merged"
 
 c_white = Color.new(255, 255, 255)
+c_grey = Color.new(127, 127, 127)
 c_black = Color.new(0, 0, 0)
 System.setCpuSpeed(NEW_3DS_CLOCK)
 System.createDirectory("/"..input_folder) -- to prevent errors
@@ -43,6 +44,7 @@ function drawMain()
     Screen.clear(TOP_SCREEN)
     Screen.clear(BOTTOM_SCREEN)
     Screen.debugPrint(5, 5, "Screenshot merge "..version, c_white, TOP_SCREEN)
+    Screen.debugPrint(5, 5, "ianburgwin.net/scr-merge", c_grey, BOTTOM_SCREEN)
     Screen.fillEmptyRect(6, 394, 17, 18, c_white, TOP_SCREEN)
 end
 
@@ -108,9 +110,10 @@ doubleDraw(function()
         print(5, 160, "starting.")
         print(5, 200, "X: start")
         print(5, 215, "B: exit")
+    else
+        print(5, 115, "X: start")
+        print(5, 130, "B: exit")
     end
-    print(5, 115, "X: start")
-    print(5, 130, "B: exit")
 end)
 repeat
     --noinspection GlobalCreationOutsideO
@@ -129,7 +132,9 @@ doubleDraw(function()
     print(73, 45, #files_to_process)
     print(160, 45, "0")
     print(190, 45, "%")
+    print(5, 60, "Hold B to stop.")
 end)
+stop_count = 0
 for i = 1, #files_to_process do
     System.deleteFile("/"..output_folder.."/scr_"..files_to_process[i].."_MERGED.bmp")
     local top = Screen.loadImage("/"..input_folder.."/scr_"..files_to_process[i].."_TOP_LEFT.png")
@@ -147,23 +152,33 @@ for i = 1, #files_to_process do
         print(73, 45, #files_to_process)
         print(160, 45, math.floor((i / #files_to_process) * 100))
         print(190, 45, "%")
+        print(5, 60, "Hold B to stop.")
     end)
+    --noinspection GlobalCreationOutsideO
+    stop_count = i
+    if Controls.check(Controls.read(), KEY_B) then
+        break
+    end
 end
 doubleDraw(function()
     drawMain()
     print(5, 25, "Processing screenshots...")
-    print(5, 45, #files_to_process)
+    print(5, 45, stop_count)
     print(51, 45, "/")
     print(73, 45, #files_to_process)
-    print(160, 45, "100")
+    print(160, 45, math.floor((stop_count / #files_to_process) * 100))
     print(190, 45, "%")
-    print(5, 60, "Done!")
-    print(5, 100, "A/B: exit")
+    if stop_count ~= #files_to_process then
+        print(5, 60, "Stopped.")
+    else
+        print(5, 60, "Done!")
+    end
+    print(5, 100, "A: exit")
 end)
 while true do
     --noinspection GlobalCreationOutsideO
     pad = Controls.read()
-    if Controls.check(pad, KEY_A) or Controls.check(pad, KEY_B) then
+    if Controls.check(pad, KEY_A) then
         System.exit()
     end
 end
