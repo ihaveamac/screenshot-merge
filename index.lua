@@ -58,16 +58,16 @@ function drawMain()
     Screen.debugPrint(5, 5, "Screenshot merge "..version, c_white, TOP_SCREEN)
     Screen.fillEmptyRect(6, 394, 17, 18, c_grey, TOP_SCREEN)
     Screen.debugPrint(5, 5, "ianburgwin.net/scr-merge", c_grey, BOTTOM_SCREEN)
-    if new_ver_available and not dev_version then
+    --[[if new_ver_available and not dev_version then
         Screen.debugPrint(5, 25, "New version available!", c_green, BOTTOM_SCREEN)
         Screen.debugPrint(5, 40, "Go to the URL above to get it.", c_green, BOTTOM_SCREEN)
-    end
+    end]]
 end
 
-doubleDraw(function()
+--[[doubleDraw(function()
     drawMain()
 end)
-new_ver_available = (Network.requestString("http://ianburgwin.net/scr-merge/version"):sub(1, version:len()) ~= version)
+new_ver_available = (Network.requestString("http://ianburgwin.net/scr-merge/version"):sub(1, version:len()) ~= version)]]
 
 doubleDraw(function()
     drawMain()
