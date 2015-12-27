@@ -1,7 +1,7 @@
 --ihaveamac--
 -- https://github.com/ihaveamac/screenshot-merge
 -- licensed under the MIT license - see https://github.com/ihaveamac/screenshot-merge/blob/master/LICENSE.md
-version = "1.1"
+version = "1.2 dev"
 dev_version = false
 
 -- input_folder exists for debugging reasons, and the fact that I back up my screenshots
@@ -23,7 +23,7 @@ System.createDirectory("/"..output_folder)
 System.createDirectory("/"..output_folder.."/"..NINJHAX)
 System.createDirectory("/"..output_folder.."/"..NTR)
 
--- this doesn't have a real purpose other than to switch "SD" and "microSD"
+-- this doesn't have a real purpose other than to switch "SD" and "microSD" + "3DS" and "2DS"
 model = System.getModel()
 --[[
 0 = Old 3DS
@@ -33,8 +33,12 @@ model = System.getModel()
 4 = New 3DS XL
 ]]
 sdcardtype = "SD"
+sysmodel   = "3DS"
 if model == 2 or model == 4 then
     sdcardtype = "microSD"
+end
+if model == 3 then
+    sysmodel = "2DS"
 end
 
 function print(x, y, text, clr)
