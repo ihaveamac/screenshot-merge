@@ -10,7 +10,7 @@ For NTR CFW screenshots, it searches the root for files that match the name `top
 Merged images are in .bmp format until lpp-3ds can save in .png.
 
 ## How to use
-Run the tool follow the on-screen prompts.
+Run the tool, and follow the on-screen prompts.
 
 # License
 screenshot-merge is under the MIT license. Lua Player Plus is under the GPLv3 license.
