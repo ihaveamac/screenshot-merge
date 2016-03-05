@@ -6,7 +6,7 @@ This uses lpp-3ds r5 by Rinnegatamante. Please see [its repo](https://github.com
 The CIA UniqueID is `0xF0ACC`.
 
 ## How to use
-Run the tool follow the on-screen prompts.
+Run the tool, and follow the on-screen prompts.
 
 For ninjhax 2.x screenshots, it searches `/screenshots` for files that match the name `scr_X_TOP_LEFT.png` and `scr_X_BOTTOM.png`, puts them together, and saves the result at `/screenshots-merged/scr_X_MERGED.bmp`.
 
