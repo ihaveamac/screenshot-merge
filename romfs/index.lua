@@ -12,6 +12,7 @@ output_folder = "screenshots-merged"
 
 NINJHAX = "ninjhax"
 NTR     = "ntr"
+LUMA    = "luma"
 
 c_white      = Color.new(255, 255, 255)
 c_grey       = Color.new(127, 127, 127)
@@ -19,10 +20,16 @@ c_black      = Color.new(0, 0, 0)
 c_green      = Color.new(0, 255, 0)
 c_red        = Color.new(255, 0, 0)
 c_light_blue = Color.new(127, 127, 255)
-System.createDirectory("/"..input_folder) -- to prevent errors
+
+ -- to prevent errors
+System.createDirectory("/"..input_folder)
+System.createDirectory("/luma")
+System.createDirectory("/luma/"..input_folder)
+
 System.createDirectory("/"..output_folder)
 System.createDirectory("/"..output_folder.."/"..NINJHAX)
 System.createDirectory("/"..output_folder.."/"..NTR)
+System.createDirectory("/"..output_folder.."/"..LUMA)
 
 local takeScreenshot = System.takeScreenshot
 local loadImage = Screen.loadImage
@@ -127,8 +134,8 @@ setDoubleDraw(function()
     print(5, 75, "folder called /")
     print(5, 95, "Only those with a top and bottom image")
     print(5, 110, "will be merged.")
-    print(5, 130, "This tool supports ninjhax 2.x and NTR CFW")
-    print(5, 145, "screenshot formats.")
+    print(5, 130, "This tool supports ninjhax 2.x, NTR CFW")
+    print(5, 145, "and luma screenshot formats.")
     print(5, 185, "A: next", c_green)
     print(5, 200, checkCIAForExit("B"), c_grey)
 end)
@@ -143,7 +150,7 @@ setDoubleDraw(function()
     print(5, 25, "Getting list of files to merge...", c_grey)
 end)
 -- for seeing if a number is already seen
-numbers = {[NINJHAX] = {}, [NTR] = {}}
+numbers = {[NINJHAX] = {}, [NTR] = {}, [LUMA] = {}}
 -- for the actual numbers, checking if TOP_LEFT and BOTTOM exist
 files_to_process = {}
 
@@ -175,6 +182,22 @@ for k, _ in pairs(numbers[NTR]) do
     if System.doesFileExist("/top_"..k..".bmp") and System.doesFileExist("/bot_"..k..".bmp") then
         table.insert(files_to_process, {k, NTR})
         if System.doesFileExist("/"..output_folder.."/"..NTR.."/mrg_"..k..".bmp") then
+            overwriting_files = true
+        end
+    end
+end
+
+-- LUMA
+for _, v in pairs(System.listDirectory("/luma/"..input_folder)) do
+    local num = v.name:sub(5, 8)
+    if not numbers[LUMA][num] then
+        numbers[LUMA][num] = true
+    end
+end
+for k, _ in pairs(numbers[LUMA]) do
+    if System.doesFileExist("/luma/"..input_folder.."/top_"..k..".bmp") and System.doesFileExist("/luma/"..input_folder.."/bot_"..k..".bmp") then
+        table.insert(files_to_process, {k, LUMA})
+        if System.doesFileExist("/"..output_folder.."/"..LUMA.."/mrg_"..k..".bmp") then
             overwriting_files = true
         end
     end
@@ -244,6 +267,15 @@ for i = 1, #files_to_process do
         drawImage(0, 0, bottom, BOTTOM_SCREEN)
         freeImage(bottom)
         takeScreenshot("/"..output_folder.."/"..NTR.."/mrg_"..files_to_process[i][1]..".bmp", false)
+    elseif files_to_process[i][2] == LUMA then
+        System.deleteFile("/"..output_folder.."/"..LUMA.."/mrg_"..files_to_process[i][1]..".bmp")
+        local top = loadImage("/luma/"..input_folder.."/top_"..files_to_process[i][1]..".bmp")
+        drawImage(0, 0, top, TOP_SCREEN)
+        freeImage(top)
+        local bottom = loadImage("/luma/"..input_folder.."/bot_"..files_to_process[i][1]..".bmp")
+        drawImage(0, 0, bottom, BOTTOM_SCREEN)
+        freeImage(bottom)
+        takeScreenshot("/"..output_folder.."/"..LUMA.."/mrg_"..files_to_process[i][1]..".bmp", false)
     end
     stop_count = i
     doubleDraw(function()
