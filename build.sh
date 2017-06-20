@@ -16,13 +16,8 @@ smdhtool --create "$HOMEBREWNAME $VERSION" "$CIADESCRIPTION" "$PUBLISHER" resour
 3dstool -cvtf romfs tmp-output/romfs.bin --romfs-dir romfs/
 if [[ "$1" == "release" ]]; then
     echo "release"
-    makerom -f cia -o "output/${HOMEBREWNAME}${VERSION}.cia" -elf resources/lpp-3ds-unsafe.elf -rsf resources/cia_workaround.rsf -icon tmp-output/icon.bin -banner tmp-output/banner.bin -exefslogo -target t -romfs tmp-output/romfs.bin -ver $TITLEVER
-    3dsxtool resources/lpp-3ds-unsafe.elf "output/${HOMEBREWNAME}.3dsx" --smdh="tmp-output/${HOMEBREWNAME}.smdh" --romfs=romfs/
-    mkdir release/
-    rm "release/${HOMEBREWNAME}${VERSION}.zip"
-    cd output/
-    zip "../release/${HOMEBREWFILENAME}${VERSION}.zip" "${HOMEBREWFILENAME}.3dsx" "${HOMEBREWFILENAME}.smdh"
-    cp "${HOMEBREWFILENAME}${VERSION}.cia" ../release
+    makerom -f cia -o "output/${HOMEBREWFILENAME}${VERSION}.cia" -elf resources/lpp-3ds-unsafe.elf -rsf resources/cia_workaround.rsf -icon tmp-output/icon.bin -banner tmp-output/banner.bin -exefslogo -target t -romfs tmp-output/romfs.bin -ver $TITLEVER
+    3dsxtool resources/lpp-3ds-unsafe.elf "output/${HOMEBREWFILENAME}.3dsx" --smdh="tmp-output/${HOMEBREWFILENAME}.smdh" --romfs=romfs/
 else
     echo "testing"
     makerom -f cia -o "output/${HOMEBREWFILENAME}${VERSION}.cia" -elf resources/lpp-3ds-normal.elf -rsf resources/cia_workaround.rsf -icon tmp-output/icon.bin -banner tmp-output/banner.bin -exefslogo -target t -romfs tmp-output/romfs.bin -ver $TITLEVER
