@@ -1,7 +1,7 @@
 --ihaveamac--
 -- https://github.com/ihaveamac/screenshot-merge
 -- licensed under the MIT license - see https://github.com/ihaveamac/screenshot-merge/blob/master/LICENSE.md
-version = "1.2"
+version = "1.3"
 dev_version = false
 System.setCpuSpeed(NEW_3DS_CLOCK)
 Screen.enable3D()

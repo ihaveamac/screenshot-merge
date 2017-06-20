@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-TITLEVER=1088  # how to use: https://www.3dbrew.org/wiki/Title_list#Versions
-VERSION="1.2"
+TITLEVER=1072  # how to use: https://www.3dbrew.org/wiki/Title_list#Versions
+VERSION="1.3"
 HOMEBREWNAME="screenshot merge"
 HOMEBREWFILENAME="screenshot-merge"
 CIADESCRIPTION="Merge top and botton screenshots into single images"
