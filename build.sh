@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-TITLEVER=1072  # how to use: https://www.3dbrew.org/wiki/Titles#Versions
+TITLEVER=1088  # how to use: https://www.3dbrew.org/wiki/Titles#Versions
 VERSION="1.4"
 HOMEBREWNAME="screenshot merge"
 HOMEBREWFILENAME="screenshot-merge"
