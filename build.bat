@@ -11,7 +11,7 @@ rd /s /q output
 rd /s /q tmp-output
 mkdir output
 mkdir tmp-output
-bannertool makesmdh -s %HOMEBREWNAME% -l "%HOMEBREWNAME%" -p "%PUBLISHER%" -i resources/icon.png -f visible,nosavebackups -o tmp-output/icon.bin
+bannertool makesmdh -s "%HOMEBREWNAME%" -l "%HOMEBREWNAME%" -p "%PUBLISHER%" -i resources/icon.png -f visible,nosavebackups -o tmp-output/icon.bin
 bannertool makebanner -i resources/banner.png -ca resources/hbchannel.cwav -o tmp-output/banner.bin
 smdhtool --create "%HOMEBREWNAME% %VERSION%" "%CIADESCRIPTION%" "%PUBLISHER%" resources/icon.png "tmp-output/%HOMEBREWFILENAME%.smdh"
 3dstool -cvtf romfs tmp-output/romfs.bin --romfs-dir romfs/
