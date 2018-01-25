@@ -1,7 +1,7 @@
 --ihaveamac--
 -- https://github.com/ihaveamac/screenshot-merge
 -- licensed under the MIT license - see https://github.com/ihaveamac/screenshot-merge/blob/master/LICENSE.md
-version = "1.3"
+version = "1.4"
 dev_version = false
 System.setCpuSpeed(NEW_3DS_CLOCK)
 Screen.enable3D()
@@ -12,7 +12,8 @@ output_folder = "screenshots-merged"
 
 NINJHAX = "ninjhax"
 NTR     = "ntr"
-LUMA    = "luma"
+LUMA8   = "luma_old"
+LUMA9   = "luma_new"
 
 c_white      = Color.new(255, 255, 255)
 c_grey       = Color.new(127, 127, 127)
@@ -29,7 +30,8 @@ System.createDirectory("/luma/"..input_folder)
 System.createDirectory("/"..output_folder)
 System.createDirectory("/"..output_folder.."/"..NINJHAX)
 System.createDirectory("/"..output_folder.."/"..NTR)
-System.createDirectory("/"..output_folder.."/"..LUMA)
+System.createDirectory("/"..output_folder.."/"..LUMA8)
+System.createDirectory("/"..output_folder.."/"..LUMA9)
 
 local takeScreenshot = System.takeScreenshot
 local loadImage = Screen.loadImage
@@ -150,7 +152,7 @@ setDoubleDraw(function()
     print(5, 25, "Getting list of files to merge...", c_grey)
 end)
 -- for seeing if a number is already seen
-numbers = {[NINJHAX] = {}, [NTR] = {}, [LUMA] = {}}
+numbers = {[NINJHAX] = {}, [NTR] = {}, [LUMA8] = {}, [LUMA9] = {}}
 -- for the actual numbers, checking if TOP_LEFT and BOTTOM exist
 files_to_process = {}
 
@@ -187,17 +189,35 @@ for k, _ in pairs(numbers[NTR]) do
     end
 end
 
--- LUMA
 for _, v in pairs(System.listDirectory("/luma/"..input_folder)) do
-    local num = v.name:sub(5, 8)
-    if not numbers[LUMA][num] then
-        numbers[LUMA][num] = true
+    if (v.name:len() == 12) then
+        local num = v.name:sub(5, 8)
+        if not numbers[LUMA8][num] then
+            numbers[LUMA8][num] = true
+        end
+    end
+
+    if (v.name:len() == 31) then
+        local num = v.name:sub(1, 23)
+        if not numbers[LUMA9][num] then
+            numbers[LUMA9][num] = true
+        end
     end
 end
-for k, _ in pairs(numbers[LUMA]) do
+
+for k, _ in pairs(numbers[LUMA8]) do
     if System.doesFileExist("/luma/"..input_folder.."/top_"..k..".bmp") and System.doesFileExist("/luma/"..input_folder.."/bot_"..k..".bmp") then
-        table.insert(files_to_process, {k, LUMA})
-        if System.doesFileExist("/"..output_folder.."/"..LUMA.."/mrg_"..k..".bmp") then
+        table.insert(files_to_process, {k, LUMA8})
+        if System.doesFileExist("/"..output_folder.."/"..LUMA8.."/mrg_"..k..".bmp") then
+            overwriting_files = true
+        end
+    end
+end
+
+for k, _ in pairs(numbers[LUMA9]) do
+    if System.doesFileExist("/luma/"..input_folder.."/"..k.."_top.bmp") and System.doesFileExist("/luma/"..input_folder.."/"..k.."_bot.bmp") then
+        table.insert(files_to_process, {k, LUMA9})
+        if System.doesFileExist("/"..output_folder.."/"..LUMA9.."/mrg_"..k..".bmp") then
             overwriting_files = true
         end
     end
@@ -267,16 +287,26 @@ for i = 1, #files_to_process do
         drawImage(0, 0, bottom, BOTTOM_SCREEN)
         freeImage(bottom)
         takeScreenshot("/"..output_folder.."/"..NTR.."/mrg_"..files_to_process[i][1]..".bmp", false)
-    elseif files_to_process[i][2] == LUMA then
-        System.deleteFile("/"..output_folder.."/"..LUMA.."/mrg_"..files_to_process[i][1]..".bmp")
+    elseif files_to_process[i][2] == LUMA8 then
+        System.deleteFile("/"..output_folder.."/"..LUMA8.."/mrg_"..files_to_process[i][1]..".bmp")
         local top = loadImage("/luma/"..input_folder.."/top_"..files_to_process[i][1]..".bmp")
         drawImage(0, 0, top, TOP_SCREEN)
         freeImage(top)
         local bottom = loadImage("/luma/"..input_folder.."/bot_"..files_to_process[i][1]..".bmp")
         drawImage(0, 0, bottom, BOTTOM_SCREEN)
         freeImage(bottom)
-        takeScreenshot("/"..output_folder.."/"..LUMA.."/mrg_"..files_to_process[i][1]..".bmp", false)
+        takeScreenshot("/"..output_folder.."/"..LUMA8.."/mrg_"..files_to_process[i][1]..".bmp", false)
+    elseif files_to_process[i][2] == LUMA9 then
+        System.deleteFile("/"..output_folder.."/"..LUMA9.."/mrg_"..files_to_process[i][1]..".bmp")
+        local top = loadImage("/luma/"..input_folder.."/"..files_to_process[i][1].."_top.bmp")
+        drawImage(0, 0, top, TOP_SCREEN)
+        freeImage(top)
+        local bottom = loadImage("/luma/"..input_folder.."/"..files_to_process[i][1].."_bot.bmp")
+        drawImage(0, 0, bottom, BOTTOM_SCREEN)
+        freeImage(bottom)
+        takeScreenshot("/"..output_folder.."/"..LUMA9.."/mrg_"..files_to_process[i][1]..".bmp", false)
     end
+
     stop_count = i
     doubleDraw(function()
         drawMain()
