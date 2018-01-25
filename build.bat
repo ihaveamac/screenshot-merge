@@ -18,11 +18,11 @@ smdhtool --create "%HOMEBREWNAME% %VERSION%" "%CIADESCRIPTION%" "%PUBLISHER%" re
 
 if "%1"=="release" (
     echo "release"
-    makerom -f cia -o "output/%HOMEBREWFILENAME%-v%VERSION%.cia" -elf resources/lpp-3ds-unsafe.elf -rsf resources/cia_workaround.rsf -icon tmp-output/icon.bin -banner tmp-output/banner.bin -exefslogo -target t -romfs tmp-output/romfs.bin -ver $TITLEVER
+    makerom -f cia -o "output/%HOMEBREWFILENAME%-v%VERSION%.cia" -elf resources/lpp-3ds-unsafe.elf -rsf resources/cia_workaround.rsf -icon tmp-output/icon.bin -banner tmp-output/banner.bin -exefslogo -target t -romfs tmp-output/romfs.bin -ver %TITLEVER%
     3dsxtool resources/lpp-3ds-unsafe.elf "output/%HOMEBREWFILENAME%.3dsx" --smdh="tmp-output/%HOMEBREWFILENAME%.smdh" --romfs=romfs/
 ) else (
     echo "testing"
-    makerom -f cia -o "output/%HOMEBREWFILENAME%-v%VERSION%.cia" -elf resources/lpp-3ds-normal.elf -rsf resources/cia_workaround.rsf -icon tmp-output/icon.bin -banner tmp-output/banner.bin -exefslogo -target t -romfs tmp-output/romfs.bin -ver $TITLEVER
+    makerom -f cia -o "output/%HOMEBREWFILENAME%-v%VERSION%.cia" -elf resources/lpp-3ds-normal.elf -rsf resources/cia_workaround.rsf -icon tmp-output/icon.bin -banner tmp-output/banner.bin -exefslogo -target t -romfs tmp-output/romfs.bin -ver %TITLEVER%
     3dsxtool resources/lpp-3ds-unsafe.elf "output/%HOMEBREWFILENAME%.3dsx" --smdh="tmp-output/%HOMEBREWFILENAME%.smdh" --romfs=romfs/
 )
 
